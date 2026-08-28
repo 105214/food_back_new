@@ -1,5 +1,5 @@
 import express from 'express'
-import { Login, Signup } from "../controllers/userController.js"
+import { Login, profileUpdate, Signup } from "../controllers/userController.js"
 
 const router = express.Router()
 
@@ -7,5 +7,8 @@ const router = express.Router()
 router.post('/signup',Signup)
 
 router.post('/login',Login)
+
+router.put('/update',profileUpdate)
+
 
 export default router

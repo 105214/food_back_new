@@ -72,6 +72,11 @@ const Login = async (req,res)=>{
 
         const token = await generateToken(userExist.id)
 
+        res.cookie("token",token,{
+            httpOnly:true,
+            secure:false
+        })
+
         res.status(200).json({message:"Login successfull",data:{id:userExist.id,email:userExist.email},token})
     } catch (error) {
         console.log(error)
@@ -82,9 +87,18 @@ const Login = async (req,res)=>{
 
 const profileUpdate = async (req,res)=>{
     try {
+       const id = req.params.id
+        const {name,email,password,image,phone,address}=req.body
+
         
+        const checkUser = await User.findById(id)
+
+        if(!checkUser){
+            return res.status(404).json({message:"User not found"})
+        }
+
     } catch (error) {
         
     }
 }
-export {Signup,Login}
+export {Signup,Login,profileUpdate}
