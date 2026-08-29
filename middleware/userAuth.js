@@ -1,3 +1,5 @@
+import JWT from 'jsonwebtoken'
+
 const UserAuth = (req,res,next)=>{
     try {
         const token = req.cookies.token
@@ -11,6 +13,9 @@ const UserAuth = (req,res,next)=>{
         req.user = decoded
         next()
     } catch (error) {
-        res.status(500).json({message:"internal server error"})
+        console.log(error)
+        res.status(500).json({message:"internal server error123"})
     }
 }
+
+export default UserAuth

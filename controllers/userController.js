@@ -90,15 +90,41 @@ const profileUpdate = async (req,res)=>{
        const id = req.params.id
         const {name,email,password,image,phone,address}=req.body
 
-        
-        const checkUser = await User.findById(id)
-
-        if(!checkUser){
-            return res.status(404).json({message:"User not found"})
+        const updateData={}
+        if(req.file){
+            updateData.image=image.secure_url
         }
 
+        if(name){
+            updateData.name=name
+        }
+
+        if(email){
+            updateData.email=email
+        }
+        if(phone){
+            updateData.phone=phone
+        }
+        if(address){
+            updateData.address=address
+        }
+    
+if(password){ 
+            const saltRound=10
+             const hashed = await bcrypt.hash(password,saltRound)
+            updateData.password=hashed
+}
+            const checkUser = await User.findByIdAndUpdate(id,{updateData},{
+                new:true,
+                runValidators:true
+            })
+        if(!checkUser){
+            return res.status(404).json({message:"User not founderr"})
+        }
+res.status(200).json({message:"Profile updated",checkUser})
     } catch (error) {
-        
+        console.log(error)
+    res.status(500).json({message:"internal server errorrrrr"})    
     }
 }
 export {Signup,Login,profileUpdate}
