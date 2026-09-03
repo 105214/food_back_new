@@ -9,7 +9,7 @@ router.post('/signup',Signup)
 
 router.post('/login',Login)
 
-router.put('/update',UserAuth,profileUpdate)
+router.put('/update/:id',UserAuth,profileUpdate)
 
 
 export default router

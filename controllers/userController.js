@@ -88,6 +88,8 @@ const Login = async (req,res)=>{
 const profileUpdate = async (req,res)=>{
     try {
        const id = req.params.id
+
+       console.log(id,"iddd")
         const {name,email,password,image,phone,address}=req.body
 
         const updateData={}
@@ -127,4 +129,23 @@ res.status(200).json({message:"Profile updated",checkUser})
     res.status(500).json({message:"internal server errorrrrr"})    
     }
 }
-export {Signup,Login,profileUpdate}
+
+
+const deleteProfile = async (req,res)=>{
+    try {
+        
+        const id = req.params.id
+
+        const removeProfile = await User.findByIdAndDelete(id)
+
+        if(!removeProfile){
+            return res.status(404).json({message:"User not found"})
+        }
+
+        res.status(200).json({message:"Profile deleted successfully"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"internal server error"})
+    }
+}
+export {Signup,Login,profileUpdate,deleteProfile}
