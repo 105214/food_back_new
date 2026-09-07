@@ -89,7 +89,7 @@ const profileUpdate = async (req,res)=>{
     try {
        const id = req.params.id
 
-       console.log(id,"iddd")
+      
         const {name,email,password,image,phone,address}=req.body
 
         const updateData={}
@@ -121,12 +121,12 @@ if(password){
                 runValidators:true
             })
         if(!checkUser){
-            return res.status(404).json({message:"User not founderr"})
+            return res.status(404).json({message:"User not founder"})
         }
 res.status(200).json({message:"Profile updated",checkUser})
     } catch (error) {
         console.log(error)
-    res.status(500).json({message:"internal server errorrrrr"})    
+    res.status(500).json({message:"internal server error"})    
     }
 }
 
@@ -148,4 +148,13 @@ const deleteProfile = async (req,res)=>{
         res.status(500).json({message:"internal server error"})
     }
 }
-export {Signup,Login,profileUpdate,deleteProfile}
+
+const logout = async(req,res)=>{
+    try {
+        res.clearCookie('token')
+        res.status(200).json({message:"Logout successfull"})
+    } catch (error) {
+        res.status(500).json({message:"Internal server errorrrr"})
+    }
+}
+export {Signup,Login,profileUpdate,deleteProfile,logout}
