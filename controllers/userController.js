@@ -90,11 +90,11 @@ const profileUpdate = async (req,res)=>{
        const id = req.params.id
 
       
-        const {name,email,password,image,phone,address}=req.body
+        const {name,email,password,phone,address}=req.body
 
         const updateData={}
         if(req.file){
-            updateData.image=image.secure_url
+            updateData.image=req.file.path
         }
 
         if(name){
@@ -116,13 +116,14 @@ if(password){
              const hashed = await bcrypt.hash(password,saltRound)
             updateData.password=hashed
 }
-            const checkUser = await User.findByIdAndUpdate(id,{updateData},{
+            const checkUser = await User.findByIdAndUpdate(id,updateData,{
                 new:true,
                 runValidators:true
             })
         if(!checkUser){
             return res.status(404).json({message:"User not founder"})
         }
+        console.log("phone=====",checkUser.phone)
 res.status(200).json({message:"Profile updated",checkUser})
     } catch (error) {
         console.log(error)
